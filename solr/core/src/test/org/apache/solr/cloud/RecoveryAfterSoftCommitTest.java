@@ -33,7 +33,7 @@ import org.junit.Test;
 @SolrTestCaseJ4.SuppressSSL
 public class RecoveryAfterSoftCommitTest extends AbstractFullDistribZkTestBase {
   private static final int MAX_BUFFERED_DOCS = 2, ULOG_NUM_RECORDS_TO_KEEP = 2;
-  private static boolean onlyLeaderIndexes = random().nextBoolean();
+  private final boolean onlyLeaderIndexes = random().nextBoolean();
   public RecoveryAfterSoftCommitTest() {
     sliceCount = 1;
     fixShardCount(2);
