@@ -384,7 +384,7 @@ public class TestInjection {
 
           String localVersion = core.getDeletionPolicy().getLatestCommit().getUserData().get(SolrIndexWriter.COMMIT_TIME_MSEC_KEY);
           if (localVersion == null && leaderVersion == 0 && !core.getUpdateHandler().getUpdateLog().hasUncommittedChanges()) return true;
-          if (localVersion != null && Long.parseLong(localVersion) == leaderVersion && leaderVersion >= t) {
+          if (localVersion != null && Long.parseLong(localVersion) == leaderVersion && (leaderVersion >= t || i >= 6)) {
             return true;
           } else {
             Thread.sleep(500);
