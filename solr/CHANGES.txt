@@ -50,6 +50,10 @@ Upgrading from Solr 6.x
   factors should be indexed in a separate field and combined with the query
   score using a function query.
 
+New Features
+----------------------
+* SOLR-9857, SOLR-9858: Collect aggregated metrics from nodes and shard leaders in overseer. (ab)
+
 Bug Fixes
 ----------------------
 * SOLR-9262: Connection and read timeouts are being ignored by UpdateShardHandler after SOLR-4509.
@@ -96,6 +100,10 @@ Detailed Change List
 
 Upgrade Notes
 ----------------------
+* SOLR-10226: JMX metric "avgTimePerRequest" (and the corresponding metric in the metrics API for
+  each handler) used to be a simple non-decaying average based on total cumulative time and the
+  number of requests. New Codahale Metrics implementation applies exponential decay to this value,
+  which heavily biases the average towards the last 5 minutes. (ab)
 
 New Features
 ----------------------
@@ -212,6 +220,8 @@ Bug Fixes
 
 * SOLR-10088: Installer script does not put zoo.cfg in SOLR_HOME (janhoy)
 
+* SOLR-10226: add back "totalTime" metric to all handlers. See also the back-compat note. (ab)
+
 Optimizations
 ----------------------
 
@@ -293,6 +303,14 @@ Other Changes
 * SOLR-10171: Add Constant Reduction Rules to Calcite Planner (Kevin Risden)
 
 * SOLR-10230: default TTL of PKIAuthenticationPlugin increased to 10secs (noble)
+
+* SOLR-10235: Fix DIH's TestJdbcDataSource to work with Java 9 and other Java runtimes that
+  do not use the same DriverManager implementation like Oracle's original one. The test now
+  uses a fully implemented Driver instance returning a mock connection. The test also works
+  correct now if other drivers were installed before test execution (e.g., through IDE).
+  (hossman, Uwe Schindler)
+
+* SOLR-8876: change morphline test config files to work around 'importCommands' bug when using java9 (hossman)
 
 ==================  6.4.2 ==================
 
