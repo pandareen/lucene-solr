@@ -202,10 +202,6 @@ public class TestInPlaceUpdatesDistrib extends AbstractFullDistribZkTestBase {
 
   // The following should work: full update to doc 0, in-place update for doc 0, delete doc 0
   private void outOfOrderDBQsTest() throws Exception {
-    if (onlyLeaderIndexes) {
-      log.info("RTG with DBQs are not working in append replicas");
-      return;
-    }
     
     clearIndex();
     commit();
@@ -576,10 +572,6 @@ public class TestInPlaceUpdatesDistrib extends AbstractFullDistribZkTestBase {
   }
 
   private void outOfOrderUpdatesIndividualReplicaTest() throws Exception {
-    if (onlyLeaderIndexes) {
-      log.info("Leader election being kicked off make this test too inconsistent for this mode");
-      return;
-    }
     clearIndex();
     commit();
 
@@ -1004,7 +996,7 @@ public class TestInPlaceUpdatesDistrib extends AbstractFullDistribZkTestBase {
     String baseUrl = getBaseUrl(""+id);
 
     UpdateRequest ur = new UpdateRequest();
-    if (random().nextBoolean()) {
+    if (random().nextBoolean() || onlyLeaderIndexes) {
       ur.deleteById(""+id);
     } else {
       ur.deleteByQuery("id:"+id);

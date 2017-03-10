@@ -89,6 +89,7 @@ public class ReplicateFromLeader {
           CommitUpdateCommand cuc = new CommitUpdateCommand(req, false);
           cuc.setVersion(Long.parseLong(commitVersion));
           updateLog.copyOverOldUpdates(cuc);
+          lastVersion = Long.parseLong(commitVersion);
         }
       });
       replicationProcess.init(replicationConfig);
