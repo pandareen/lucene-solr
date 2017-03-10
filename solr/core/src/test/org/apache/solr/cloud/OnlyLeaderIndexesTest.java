@@ -154,19 +154,27 @@ public class OnlyLeaderIndexesTest extends SolrCloudTestCase {
     // We skip peerSync, so replica will always trigger commit on leader
     checkShardConsistency(4, 20);
 
-    // More Replica recovery testing
+    // LTR can be kicked off, so waiting for replicas recovery
     new UpdateRequest()
         .add(sdoc("id", "7"))
+        .commit(cloudClient, COLLECTION);
+    AbstractDistribZkTestBase.waitForRecoveriesToFinish(COLLECTION, cluster.getSolrClient().getZkStateReader(),
+        false, true, 30);
+    checkShardConsistency(5, 20);
+
+    // More Replica recovery testing
+    new UpdateRequest()
+        .add(sdoc("id", "8"))
         .process(cloudClient, COLLECTION);
-    checkRTG(3,7, cluster.getJettySolrRunners());
+    checkRTG(3,8, cluster.getJettySolrRunners());
     DirectUpdateHandler2.commitOnClose = false;
     ChaosMonkey.stop(solrRunner);
     DirectUpdateHandler2.commitOnClose = true;
     ChaosMonkey.start(solrRunner);
     AbstractDistribZkTestBase.waitForRecoveriesToFinish(COLLECTION, cluster.getSolrClient().getZkStateReader(),
         false, true, 30);
-    checkRTG(3,7, cluster.getJettySolrRunners());
-    checkShardConsistency(5, 20);
+    checkRTG(3,8, cluster.getJettySolrRunners());
+    checkShardConsistency(6, 20);
 
     // Test replica recovery apply buffer updates
     Semaphore waitingForBufferUpdates = new Semaphore(0);
@@ -183,15 +191,15 @@ public class OnlyLeaderIndexesTest extends SolrCloudTestCase {
     ChaosMonkey.start(solrRunner);
     waitingForReplay.acquire();
     new UpdateRequest()
-        .add(sdoc("id", "8"))
         .add(sdoc("id", "9"))
+        .add(sdoc("id", "10"))
         .process(cloudClient, COLLECTION);
     waitingForBufferUpdates.release();
     RecoveryStrategy.testing_beforeReplayBufferingUpdates = null;
     AbstractDistribZkTestBase.waitForRecoveriesToFinish(COLLECTION, cluster.getSolrClient().getZkStateReader(),
         false, true, 30);
-    checkRTG(3,9, cluster.getJettySolrRunners());
-    checkShardConsistency(5, 20);
+    checkRTG(3,10, cluster.getJettySolrRunners());
+    checkShardConsistency(6, 20);
     for (SolrCore solrCore : getSolrCore(false)) {
       RefCounted<IndexWriter> iwRef = solrCore.getUpdateHandler().getSolrCoreState().getIndexWriter(null);
       assertFalse("IndexWriter at replicas must not see updates ", iwRef.get().hasUncommittedChanges());
