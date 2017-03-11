@@ -221,8 +221,10 @@ public class OnlyLeaderIndexesTest extends SolrCloudTestCase {
         .process(cloudClient, COLLECTION);
     try {
       checkRTG(1, 1, cluster.getJettySolrRunners());
-      fail("Doc1 is deleted but it's still exist");
-    } catch (AssertionError e) {}
+    } catch (AssertionError e) {
+      return;
+    }
+    fail("Doc1 is deleted but it's still exist");
   }
 
   public void basicLeaderElectionTest() throws Exception {
