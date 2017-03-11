@@ -36,6 +36,8 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.cloud.DocCollection;
 import org.apache.solr.common.cloud.Replica;
 import org.apache.solr.common.cloud.Slice;
+import org.apache.solr.common.cloud.ZkNodeProps;
+import org.apache.solr.common.cloud.ZkStateReader;
 import org.apache.solr.core.SolrCore;
 import org.apache.solr.update.DirectUpdateHandler2;
 import org.apache.solr.update.SolrIndexWriter;
@@ -236,10 +238,15 @@ public class OnlyLeaderIndexesTest extends SolrCloudTestCase {
         .add(sdoc("id", "1"))
         .add(sdoc("id", "2"))
         .process(cloudClient, COLLECTION);
+    String oldLeader = getLeader();
     JettySolrRunner oldLeaderJetty = getSolrRunner(true).get(0);
     ChaosMonkey.kill(oldLeaderJetty);
-    AbstractDistribZkTestBase.waitForRecoveriesToFinish(COLLECTION, cluster.getSolrClient().getZkStateReader(),
-        false, true, 60);
+    for (int i = 0; i < 60; i++) { // wait till leader is changed
+      if (!oldLeader.equals(getLeader())) {
+        break;
+      }
+      Thread.sleep(100);
+    }
     new UpdateRequest()
         .add(sdoc("id", "3"))
         .add(sdoc("id", "4"))
@@ -251,6 +258,11 @@ public class OnlyLeaderIndexesTest extends SolrCloudTestCase {
     new UpdateRequest()
         .commit(cloudClient, COLLECTION);
     checkShardConsistency(4,1);
+  }
+
+  private String getLeader() throws InterruptedException {
+    ZkNodeProps props = cluster.getSolrClient().getZkStateReader().getLeaderRetry("collection1", "shard1", 30000);
+    return props.getStr(ZkStateReader.NODE_NAME_PROP);
   }
 
   public void outOfOrderDBQWithInPlaceUpdatesTest() throws Exception {
