@@ -266,7 +266,6 @@ public class OnlyLeaderIndexesTest extends SolrCloudTestCase {
   }
 
   public void outOfOrderDBQWithInPlaceUpdatesTest() throws Exception {
-    CloudSolrClient cloudClient = cluster.getSolrClient();
     new UpdateRequest()
         .deleteByQuery("*:*")
         .commit(cluster.getSolrClient(), COLLECTION);
@@ -288,7 +287,10 @@ public class OnlyLeaderIndexesTest extends SolrCloudTestCase {
     ChaosMonkey.start(oldLeaderJetty);
     AbstractDistribZkTestBase.waitForRecoveriesToFinish(COLLECTION, cluster.getSolrClient().getZkStateReader(),
         false, true, 30);
-    checkRTG(1,1, cluster.getJettySolrRunners());
+    new UpdateRequest()
+        .add(sdoc("id", "2"))
+        .commit(cluster.getSolrClient(), COLLECTION);
+    checkShardConsistency(2,20);
     SolrDocument doc = cluster.getSolrClient().getById(COLLECTION,"1");
     assertNotNull(doc.get("title_s"));
   }
