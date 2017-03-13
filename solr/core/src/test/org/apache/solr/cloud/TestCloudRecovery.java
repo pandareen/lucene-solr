@@ -135,7 +135,11 @@ public class TestCloudRecovery extends SolrCloudTestCase {
         skippedCount += skipped.getCount();
       }
     }
-    assertEquals(2, replicationCount);
+    if (onlyLeaderIndexes) {
+      assertTrue(replicationCount >= 2);
+    } else {
+      assertEquals(2, replicationCount);
+    }
   }
 
   @Test
