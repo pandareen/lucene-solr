@@ -24,7 +24,7 @@ install:
  
 build_script:
   - set PATH=C:\apache-ant-1.10.1\bin;;%PATH%
-  - set ANT_HOME=C:\apache-ant-1.10.1\bin;
+  - set ANT_HOME=C:\apache-ant-1.10.1\;
   - ant ivy-bootstrap
   - ant jar
 
