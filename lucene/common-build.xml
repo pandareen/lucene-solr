@@ -163,7 +163,6 @@
   <property name="javac.debug" value="on"/>
   <property name="javac.release" value="7"/>
   <property name="javac.args" value="-Xlint -Xlint:-deprecation -Xlint:-serial"/>
-  <property name="javac.profile.args" value="-profile compact1"/>
   <property name="javadoc.link" value="https://docs.oracle.com/javase/8/docs/api/"/>
   <property name="javadoc.link.junit" value="http://junit.sourceforge.net/javadoc/"/>
   <property name="javadoc.packagelist.dir" location="${common.dir}/tools/javadoc"/>
@@ -1969,7 +1968,6 @@ ${ant.project.name}.test.dependencies=${test.classpath.list}
         <!-- <compilerarg line="-Xmaxwarns 10000000"/>
         <compilerarg line="-Xmaxerrs 10000000"/> -->
         <compilerarg line="${javac.args}"/>
-        <compilerarg line="${javac.profile.args}"/>
         <compilerarg line="${javac.release.args}"/>
         <compilerarg line="${javac.doclint.args}"/>
       </javac>
