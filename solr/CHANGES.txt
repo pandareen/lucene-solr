@@ -50,6 +50,8 @@ Upgrading from Solr 6.x
   factors should be indexed in a separate field and combined with the query
   score using a function query.
 
+* Deprecated method getNumericType() has been removed from FieldType. Use getNumberType() instead
+
 New Features
 ----------------------
 * SOLR-9857, SOLR-9858: Collect aggregated metrics from nodes and shard leaders in overseer. (ab)
@@ -80,6 +82,8 @@ Optimizations
   (yonik)
 
 Other Changes
+* SOLR-10236: Removed FieldType.getNumericType(). Use getNumberType() instead. (Tomás Fernández Löbbe)
+
 ----------------------
 
 ==================  6.5.0 ==================
@@ -164,6 +168,17 @@ New Features
 
 * SOLR-9986: Implement DatePointField (Cao Manh Dat, Tomás Fernández Löbbe)
 
+* SOLR-8045: Deploy V2 API at /v2 instead of /solr/v2 (Cao Manh Dat, Noble Paul)
+
+* SOLR-10039: New LatLonPointSpatialField replacement for LatLonType (and some uses of RPT).  Multi-value capable
+  indexed geo lat-lon points, query by rect or circle.  Efficient distance sorting/boosting too. (David Smiley)
+
+* SOLR-10250: CloudSolrClient can now return versions for documents added or deleted when "versions=true" is passed.
+  However, if there is a leader election while this request is in transit, the versions may not be returned from that
+  shard. (Boris Naguet, Ishan Chattopadhyaya)
+
+* SOLR-9045: Make RecoveryStrategy settings configurable. (Christine Poerschke)
+
 Bug Fixes
 ----------------------
 
@@ -221,6 +236,10 @@ Bug Fixes
 * SOLR-10088: Installer script does not put zoo.cfg in SOLR_HOME (janhoy)
 
 * SOLR-10226: add back "totalTime" metric to all handlers. See also the back-compat note. (ab)
+
+* SOLR-9838: "inc" atomic update doesn't respect default field value (hoss, Amrit Sarkar, Ishan Chattopadhyaya)
+
+* SOLR-10269: MetricsHandler JSON output incorrect. (ab)
 
 Optimizations
 ----------------------

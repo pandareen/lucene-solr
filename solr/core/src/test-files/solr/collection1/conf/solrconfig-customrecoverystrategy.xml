@@ -1,4 +1,5 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<?xml version="1.0" ?>
+
 <!--
  Licensed to the Apache Software Foundation (ASF) under one or more
  contributor license agreements.  See the NOTICE file distributed with
@@ -16,17 +17,16 @@
  limitations under the License.
 -->
 
-<!-- not a package-info.java, because we already defined this package in core/ -->
-
-<html>
-<head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-</head>
-<body>
-This package contains several point types:
-<ul>
-   <li>{@link org.apache.lucene.document.BigIntegerPoint BigIntegerPoint} for 128-bit integers</li>
-   <li>{@link org.apache.lucene.document.LatLonPoint LatLonPoint} for latitude/longitude geospatial points</li>
-</ul>
-</body>
-</html>
+<config>
+  <luceneMatchVersion>${tests.luceneMatchVersion:LATEST}</luceneMatchVersion>
+  <xi:include href="solrconfig.snippet.randomindexconfig.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <requestHandler name="standard" class="solr.StandardRequestHandler"></requestHandler>
+  <!--
+    The RecoveryStrategy and RecoveryStrategy.Builder classes may change in future and customisations
+    are not supported between versions in terms of API or back compat behaviour.
+  -->
+  <recoveryStrategy class="org.apache.solr.core.ConfigureRecoveryStrategyTest$CustomRecoveryStrategyBuilder">
+    <str name="alternativeBaseUrlProp">recovery_base_url</str>
+  </recoveryStrategy>
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
+</config>
