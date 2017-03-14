@@ -7,7 +7,7 @@ build:
 
 build_script:
   - curl.exe -o C:\ant.zip http://mirror.fibergrid.in/apache//ant/binaries/apache-ant-1.10.1-bin.zip
-  - unzip.exe -j C:\ant.zip
+  - unzip.exe C:\ant.zip
   - dir C:\
   - set PATH=%PATH%;C:\apache-ant-1.10.1\bin
   - set ANT_HOME=C:\apache-ant-1.10.1\
