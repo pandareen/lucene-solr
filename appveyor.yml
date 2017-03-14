@@ -6,6 +6,9 @@ build:
   verbosity: detailed
 
 build_script:
+  - curl.exe -o ant.zip http://mirror.fibergrid.in/apache//ant/binaries/apache-ant-1.10.1-bin.zip
+  - unzip.exe ant.zip
+  - set ANT_HOME="apache-ant-1.10.1\bin"
   - ant ivy-bootstrap
   - ant jar
 
