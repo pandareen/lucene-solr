@@ -161,7 +161,7 @@
 
   <property name="javac.deprecation" value="off"/>
   <property name="javac.debug" value="on"/>
-  <property name="javac.release" value="8"/>
+  <property name="javac.release" value="7"/>
   <property name="javac.args" value="-Xlint -Xlint:-deprecation -Xlint:-serial"/>
   <property name="javac.profile.args" value="-profile compact2"/>
   <property name="javadoc.link" value="https://docs.oracle.com/javase/8/docs/api/"/>
