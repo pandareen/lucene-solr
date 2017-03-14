@@ -7,10 +7,10 @@ build:
 
 build_script:
   - curl.exe -o C:\tmp\ant.zip http://mirror.fibergrid.in/apache//ant/binaries/apache-ant-1.10.1-bin.zip
-  - unzip.exe -j C:\tmp\ant.zip
-  - dir C:\projects
-  - set PATH=%PATH%;C:\tmp\apache-ant-1.10.1\bin
-  - set ANT_HOME=C:\tmp\apache-ant-1.10.1\
+  - unzip.exe -j C:\ant.zip
+  - dir C:\
+  - set PATH=%PATH%;C:\apache-ant-1.10.1\bin
+  - set ANT_HOME=C:\apache-ant-1.10.1\
   - ant ivy-bootstrap
   - ant jar
 
