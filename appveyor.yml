@@ -6,12 +6,13 @@ build:
   verbosity: detailed
 
 build_script:
-  - curl.exe -o c:\projects\ant.zip http://mirror.fibergrid.in/apache//ant/binaries/apache-ant-1.10.1-bin.zip
-  - unzip.exe c:\projects\ant.zip
+  - curl.exe -o C:\projects\ant.zip http://mirror.fibergrid.in/apache//ant/binaries/apache-ant-1.10.1-bin.zip
+  - unzip.exe C:\projects\ant.zip
+  - dir C:\projects
   - set PATH=%PATH%;c:\projects\apache-ant-1.10.1\bin
   - set ANT_HOME=c:\projects\apache-ant-1.10.1\
-  - c:\projects\apache-ant-1.10.1\bin\ant ivy-bootstrap
-  - c:\projects\apache-ant-1.10.1\bin\ant jar
+  - C:\projects\apache-ant-1.10.1\bin\ant.bat ivy-bootstrap
+  - C:\projects\apache-ant-1.10.1\bin\ant.bat jar
 
 environment:
   matrix:
