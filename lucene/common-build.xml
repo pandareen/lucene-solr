@@ -302,7 +302,7 @@
    -->
   <condition property="build.java.runtime" value="${-cleaned.specification.version}" else="unknown">
     <or>
-      <equals arg1="${-cleaned.specification.version}" arg2="1.8"/>
+      <equals arg1="${-cleaned.specification.version}" arg2="1.7"/>
       <equals arg1="${-cleaned.specification.version}" arg2="1.9"/>
       <equals arg1="${-cleaned.specification.version}" arg2="9"/>
     </or>
@@ -320,7 +320,7 @@
         <contains string="${java.vm.name}" substring="openjdk" casesensitive="false"/>
         <contains string="${java.vm.name}" substring="jrockit" casesensitive="false"/>
       </or>
-      <equals arg1="${build.java.runtime}" arg2="1.8"/>
+      <equals arg1="${build.java.runtime}" arg2="1.7"/>
       <!-- TODO: Fix this! For now only run this on 64bit, because jTIDY OOMs with default heap size: -->
       <contains string="${os.arch}" substring="64"/>
     </and>
@@ -1955,7 +1955,7 @@ ${ant.project.name}.test.dependencies=${test.classpath.list}
     <sequential>
       <local name="javac.release.args"/>
       <condition property="javac.release.args" value="-source @{javac.release} -target @{javac.release}" else="--release @{javac.release}">
-        <equals arg1="${build.java.runtime}" arg2="1.8"/>
+        <equals arg1="${build.java.runtime}" arg2="1.7"/>
       </condition>
       <mkdir dir="@{destdir}"/>
       <javac
@@ -1979,7 +1979,7 @@ ${ant.project.name}.test.dependencies=${test.classpath.list}
   <!-- ECJ Javadoc linting: -->
   
   <condition property="ecj-javadoc-lint.supported">
-    <equals arg1="${build.java.runtime}" arg2="1.8"/>
+    <equals arg1="${build.java.runtime}" arg2="1.7"/>
   </condition>
 
   <condition property="ecj-javadoc-lint-tests.supported">
@@ -2085,7 +2085,7 @@ ${ant.project.name}.test.dependencies=${test.classpath.list}
     <sequential>
       <local name="javadoc.release.args"/>
       <condition property="javadoc.release.args" value="-source ${javac.release}" else="--release ${javac.release}">
-        <equals arg1="${build.java.runtime}" arg2="1.8"/>
+        <equals arg1="${build.java.runtime}" arg2="1.7"/>
       </condition>
       <antcall target="download-java8-javadoc-packagelist"/>
       <delete file="@{destdir}/stylesheet.css" failonerror="false"/>
