@@ -18,7 +18,7 @@ install:
  
 build_script:
   - ant ivy-bootstrap
-  - ant jar
+  - ant compile
 
 
 
