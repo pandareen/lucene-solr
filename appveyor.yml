@@ -10,7 +10,7 @@ install:
   - 7z x apache-ant-1.10.1-bin.zip > nul
  
 build_script:
-  - set PATH=%PATH%;C:\apache-ant-1.10.1\bin;
+  - set PATH=C:\apache-ant-1.10.1\bin;;%PATH%
   - set ANT_HOME=C:\apache-ant-1.10.1\bin;
   - ant ivy-bootstrap
   - ant jar
